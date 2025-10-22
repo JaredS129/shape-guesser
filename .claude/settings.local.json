@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
+      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "WebSearch",
+      "Bash(.specify/scripts/bash/update-agent-context.sh:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(test:*)",
+      "Bash(npm create:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(tree:*)",
+      "Bash(npm run test:run:*)",
+      "Bash(timeout 5 npm run dev)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
