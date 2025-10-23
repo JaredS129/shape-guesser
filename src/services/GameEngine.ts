@@ -2,8 +2,7 @@ import {
   Round,
   GameSession,
   PlayerDrawing,
-  RoundStatus,
-  TargetShape
+  RoundStatus
 } from '../models';
 import { GameSessionRepository } from '../repositories/interfaces/GameSessionRepository';
 import { ShapeRepository } from '../repositories/interfaces/ShapeRepository';
@@ -28,8 +27,23 @@ export class GameEngine {
    * @returns A new Round in DRAWING status
    */
   startRound(session: GameSession): Round {
-    // Get random shape based on session difficulty
-    const targetShape: TargetShape = this.shapeRepository.getRandomShape(session.difficulty);
+    // Get all available shapes for this difficulty
+    const availableShapes = this.shapeRepository.getShapesByDifficulty(session.difficulty);
+
+    // Get shapes that have already been used in this session
+    const usedShapeIds = session.rounds.map(r => r.targetShape.shapeId);
+
+    // Filter out used shapes to avoid duplicates
+    const unusedShapes = availableShapes.filter(
+      shape => !usedShapeIds.includes(shape.shapeId)
+    );
+
+    // If all shapes have been used, reset and use all shapes again
+    const shapesToChooseFrom = unusedShapes.length > 0 ? unusedShapes : availableShapes;
+
+    // Select random shape from available pool
+    const randomIndex = Math.floor(Math.random() * shapesToChooseFrom.length);
+    const targetShape = shapesToChooseFrom[randomIndex];
 
     // Determine round number (next in sequence)
     const roundNumber = session.rounds.length + 1;

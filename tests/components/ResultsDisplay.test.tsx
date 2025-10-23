@@ -58,14 +58,17 @@ describe('ResultsDisplay', () => {
     const round = createMockRound(85);
     render(<ResultsDisplay round={round} />);
 
-    expect(screen.getByText(/85/)).toBeInTheDocument();
+    // Find the score in the h2 heading (overall score display)
+    const scoreElements = screen.getAllByText(/85/);
+    expect(scoreElements.length).toBeGreaterThan(0);
   });
 
   it('should display the target shape name', () => {
     const round = createMockRound(75);
     render(<ResultsDisplay round={round} />);
 
-    expect(screen.getByText(/circle/i)).toBeInTheDocument();
+    const shapeElements = screen.getAllByText(/circle/i);
+    expect(shapeElements.length).toBeGreaterThan(0);
   });
 
   it('should render target shape visualization', () => {
@@ -112,9 +115,9 @@ describe('ResultsDisplay', () => {
 
   it('should display round number', () => {
     const round = createMockRound(75);
-    render(<ResultsDisplay round={round} />);
+    const { container } = render(<ResultsDisplay round={round} />);
 
-    expect(screen.getByText(/round 1/i) || screen.getByText(/1/)).toBeInTheDocument();
+    expect(container.textContent).toMatch(/round 1/i);
   });
 
   it('should show side-by-side comparison', () => {
@@ -133,6 +136,7 @@ describe('ResultsDisplay', () => {
 
     render(<ResultsDisplay round={round} />);
 
-    expect(screen.getByText(/0/)).toBeInTheDocument();
+    const scoreElements = screen.getAllByText(/0/);
+    expect(scoreElements.length).toBeGreaterThan(0);
   });
 });

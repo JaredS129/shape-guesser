@@ -133,20 +133,20 @@ description: "Task list for Shape Drawing Game implementation"
 
 ### Tests for User Story 2 (TDD - Write FIRST, Ensure FAIL) ⚠️
 
-- [ ] T051 [P] [US2] Write tests for calculateSessionStatistics in tests/unit/services/StatisticsService.test.ts (average score, best/worst score, total duration)
-- [ ] T052 [P] [US2] Write component tests for SessionStats in tests/components/SessionStats.test.tsx (displays rounds count, average score, best score, score history)
-- [ ] T053 [P] [US2] Write integration test for multi-round flow in tests/integration/multiRoundFlow.test.tsx (complete round 1 → start round 2 → verify different shape → complete round 2 → verify statistics updated)
+- [x] T051 [P] [US2] Write tests for calculateSessionStatistics in tests/unit/services/StatisticsService.test.ts (average score, best/worst score, total duration)
+- [x] T052 [P] [US2] Write component tests for SessionStats in tests/components/SessionStats.test.tsx (displays rounds count, average score, best score, score history)
+- [x] T053 [P] [US2] Write integration test for multi-round flow in tests/integration/multiRoundFlow.test.tsx (complete round 1 → start round 2 → verify different shape → complete round 2 → verify statistics updated)
 
 ### Implementation for User Story 2
 
-- [ ] T054 [P] [US2] Implement calculateSessionStatistics function in src/services/StatisticsService.ts
-- [ ] T055 [US2] Add "Play Another Round" action to GameContext reducer in src/context/GameContext.tsx
-- [ ] T056 [US2] Update GameEngine to prevent duplicate shapes within session in src/services/GameEngine.ts (track used shapes, select from remaining)
-- [ ] T057 [US2] Implement SessionStats component in src/components/SessionStats.tsx (displays total rounds, average score, best score using Material UI Chip/Typography)
-- [ ] T058 [US2] Add ScoreHistory sub-component to SessionStats in src/components/SessionStats.tsx (displays chronological score list)
-- [ ] T059 [US2] Update ResultsDisplay to include "Play Another Round" button in src/components/ResultsDisplay.tsx
-- [ ] T060 [US2] Update GameContainer to show SessionStats during results phase in src/components/GameContainer.tsx
-- [ ] T061 [US2] Update GameContainer to handle "Play Another Round" action and start new round in src/components/GameContainer.tsx
+- [x] T054 [P] [US2] Implement calculateSessionStatistics function in src/services/StatisticsService.ts
+- [x] T055 [US2] Add "Play Another Round" action to GameContext reducer in src/context/GameContext.tsx
+- [x] T056 [US2] Update GameEngine to prevent duplicate shapes within session in src/services/GameEngine.ts (track used shapes, select from remaining)
+- [x] T057 [US2] Implement SessionStats component in src/components/SessionStats.tsx (displays total rounds, average score, best score using Material UI Chip/Typography)
+- [x] T058 [US2] Add ScoreHistory sub-component to SessionStats in src/components/SessionStats.tsx (displays chronological score list)
+- [x] T059 [US2] Update ResultsDisplay to include "Play Another Round" button in src/components/ResultsDisplay.tsx
+- [x] T060 [US2] Update GameContainer to show SessionStats during results phase in src/components/GameContainer.tsx
+- [x] T061 [US2] Update GameContainer to handle "Play Another Round" action and start new round in src/components/GameContainer.tsx
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - user can play multiple rounds and track performance
 

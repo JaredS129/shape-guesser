@@ -4,7 +4,8 @@ import {
   CardContent,
   Typography,
   Chip,
-  Stack
+  Stack,
+  Button
 } from '@mui/material';
 import { Round } from '../models';
 import { ShapeRenderer } from './ShapeRenderer';
@@ -14,6 +15,7 @@ import { ShapeRenderer } from './ShapeRenderer';
  */
 interface ResultsDisplayProps {
   round: Round;
+  onPlayAgain?: () => void;
 }
 
 /**
@@ -40,7 +42,7 @@ function getScoreLabel(score: number): string {
  * ResultsDisplay - Shows round results with score and comparisons
  * Displays score, target shape, player drawing, and side-by-side comparison
  */
-export function ResultsDisplay({ round }: ResultsDisplayProps) {
+export function ResultsDisplay({ round, onPlayAgain }: ResultsDisplayProps) {
   const score = round.similarityScore?.overallScore || 0;
   const scoreColor = getScoreColor(score);
   const scoreLabel = getScoreLabel(score);
@@ -156,6 +158,21 @@ export function ResultsDisplay({ round }: ResultsDisplayProps) {
             </Stack>
           </CardContent>
         </Card>
+      )}
+
+      {/* Play Another Round Button */}
+      {onPlayAgain && (
+        <Box mt={3} textAlign="center">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={onPlayAgain}
+            sx={{ minWidth: '200px' }}
+          >
+            Play Another Round
+          </Button>
+        </Box>
       )}
     </Box>
   );

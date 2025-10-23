@@ -21,6 +21,7 @@ type GameAction =
   | { type: 'START_ROUND' }
   | { type: 'SUBMIT_DRAWING'; payload: PlayerDrawing }
   | { type: 'COMPLETE_ROUND' }
+  | { type: 'PLAY_ANOTHER_ROUND' }
   | { type: 'CLEAR_SESSION' }
   | { type: 'SET_LOADING'; payload: boolean };
 
@@ -31,6 +32,8 @@ interface GameContextValue {
   state: GameState;
   dispatch: React.Dispatch<GameAction>;
   engine: GameEngine;
+  sessionRepo: InMemoryGameSessionRepository;
+  shapeRepo: InMemoryShapeRepository;
 }
 
 // Create context
@@ -73,6 +76,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
               rounds: [...state.session.rounds, state.currentRound]
             }
           : state.session,
+        currentRound: null,
+        isLoading: false
+      };
+
+    case 'PLAY_ANOTHER_ROUND':
+      return {
+        ...state,
         currentRound: null,
         isLoading: false
       };
@@ -145,7 +155,9 @@ export function GameProvider({ children, difficulty = DifficultyLevel.EASY }: Ga
   const value: GameContextValue = {
     state: effectiveState,
     dispatch,
-    engine
+    engine,
+    sessionRepo,
+    shapeRepo
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
@@ -166,8 +178,7 @@ export function useGame() {
  * Helper hook for common game actions
  */
 export function useGameActions() {
-  const { state, dispatch, engine } = useGame();
-  const sessionRepo = React.useMemo(() => new InMemoryGameSessionRepository(), []);
+  const { state, dispatch, engine, sessionRepo } = useGame();
 
   const startRound = React.useCallback(() => {
     const session = sessionRepo.getCurrentSession();
@@ -205,10 +216,28 @@ export function useGameActions() {
     dispatch({ type: 'COMPLETE_ROUND' });
   }, [dispatch, sessionRepo]);
 
+  const playAnotherRound = React.useCallback(() => {
+    const session = sessionRepo.getCurrentSession();
+    if (!session) return;
+
+    // Move current round to completed rounds first
+    if (session.currentRound) {
+      session.rounds.push(session.currentRound);
+    }
+
+    // Start a new round
+    const newRound = engine.startRound(session);
+    session.currentRound = newRound;
+    sessionRepo.updateSession(session);
+
+    dispatch({ type: 'PLAY_ANOTHER_ROUND' });
+  }, [dispatch, engine, sessionRepo]);
+
   return {
     state,
     startRound,
     submitDrawing,
-    completeRound
+    completeRound,
+    playAnotherRound
   };
 }
