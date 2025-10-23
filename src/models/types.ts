@@ -115,6 +115,15 @@ export interface SessionStatistics {
   totalDuration: number;
   averageRoundDuration: number;
   scoreHistory: number[];
+  perDifficultyStats?: {
+    [key in DifficultyLevel]?: {
+      totalRounds: number;
+      averageScore: number;
+      bestScore: number;
+      worstScore: number;
+      scoreHistory: number[];
+    };
+  };
 }
 
 export interface GameSession {

@@ -1,4 +1,4 @@
-import { Round, SessionStatistics } from '../models';
+import { Round, SessionStatistics, DifficultyLevel } from '../models';
 
 /**
  * Calculate session statistics from completed rounds
@@ -14,7 +14,8 @@ export function calculateSessionStatistics(rounds: Round[]): SessionStatistics {
       worstScore: 0,
       totalDuration: 0,
       averageRoundDuration: 0,
-      scoreHistory: []
+      scoreHistory: [],
+      perDifficultyStats: {}
     };
   }
 
@@ -34,6 +35,37 @@ export function calculateSessionStatistics(rounds: Round[]): SessionStatistics {
   const bestScore = Math.max(...scores);
   const worstScore = Math.min(...scores);
 
+  // Calculate per-difficulty statistics
+  const perDifficultyStats: SessionStatistics['perDifficultyStats'] = {};
+
+  // Group rounds by difficulty
+  const roundsByDifficulty = rounds.reduce((acc, round) => {
+    const difficulty = round.targetShape.difficulty;
+    if (!acc[difficulty]) {
+      acc[difficulty] = [];
+    }
+    acc[difficulty].push(round);
+    return acc;
+  }, {} as Record<DifficultyLevel, Round[]>);
+
+  // Calculate stats for each difficulty
+  Object.entries(roundsByDifficulty).forEach(([difficulty, difficultyRounds]) => {
+    const difficultyScores = difficultyRounds.map(r => r.similarityScore?.overallScore || 0);
+
+    if (difficultyScores.length > 0) {
+      const difficultyTotalScore = difficultyScores.reduce((sum, score) => sum + score, 0);
+      const difficultyAverageScore = Math.round((difficultyTotalScore / difficultyScores.length) * 10) / 10;
+
+      perDifficultyStats[difficulty as DifficultyLevel] = {
+        totalRounds: difficultyRounds.length,
+        averageScore: difficultyAverageScore,
+        bestScore: Math.max(...difficultyScores),
+        worstScore: Math.min(...difficultyScores),
+        scoreHistory: difficultyScores
+      };
+    }
+  });
+
   return {
     totalRounds: rounds.length,
     averageScore,
@@ -41,6 +73,7 @@ export function calculateSessionStatistics(rounds: Round[]): SessionStatistics {
     worstScore,
     totalDuration,
     averageRoundDuration,
-    scoreHistory: scores
+    scoreHistory: scores,
+    perDifficultyStats
   };
 }

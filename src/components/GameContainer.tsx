@@ -1,11 +1,25 @@
 import React from 'react';
-import { Box, Container, Typography, Paper } from '@mui/material';
+import { Box, Container, Typography, Paper, Chip } from '@mui/material';
 import { useGame, useGameActions } from '../context/GameContext';
 import { DrawingCanvas } from './DrawingCanvas';
 import { ResultsDisplay } from './ResultsDisplay';
 import { SessionStats } from './SessionStats';
-import { PlayerDrawing, RoundStatus } from '../models';
+import { PlayerDrawing, RoundStatus, DifficultyLevel } from '../models';
 import { calculateSessionStatistics } from '../services/StatisticsService';
+
+/**
+ * Get difficulty chip properties
+ */
+function getDifficultyChipProps(difficulty: DifficultyLevel): { label: string; color: 'success' | 'warning' | 'error' } {
+  switch (difficulty) {
+    case DifficultyLevel.EASY:
+      return { label: 'Easy', color: 'success' };
+    case DifficultyLevel.MEDIUM:
+      return { label: 'Medium', color: 'warning' };
+    case DifficultyLevel.HARD:
+      return { label: 'Hard', color: 'error' };
+  }
+}
 
 /**
  * GameContainer - Main game orchestration component
@@ -91,15 +105,28 @@ export function GameContainer() {
     return null;
   };
 
+  // Get difficulty chip properties
+  const difficultyChip = currentSession ? getDifficultyChipProps(currentSession.difficulty) : null;
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box mb={4} textAlign="center">
         <Typography variant="h3" component="h1" gutterBottom>
           Shape Guesser
         </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          Draw the shape and see how well you match!
-        </Typography>
+        <Box display="flex" justifyContent="center" alignItems="center" gap={2}>
+          <Typography variant="subtitle1" color="text.secondary">
+            Draw the shape and see how well you match!
+          </Typography>
+          {difficultyChip && (
+            <Chip
+              label={difficultyChip.label}
+              color={difficultyChip.color}
+              size="small"
+              sx={{ fontWeight: 'bold' }}
+            />
+          )}
+        </Box>
       </Box>
 
       {renderContent()}

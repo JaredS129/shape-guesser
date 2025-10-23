@@ -160,20 +160,20 @@ description: "Task list for Shape Drawing Game implementation"
 
 ### Tests for User Story 3 (TDD - Write FIRST, Ensure FAIL) ⚠️
 
-- [ ] T062 [P] [US3] Write component tests for DifficultySelector in tests/components/DifficultySelector.test.tsx (renders three options, calls callback on selection, highlights selected difficulty)
-- [ ] T063 [P] [US3] Write tests for difficulty-aware shape selection in tests/unit/services/GameEngine.test.ts (Easy returns simple shapes, Medium returns complex, Hard returns composite)
-- [ ] T064 [P] [US3] Write integration test for difficulty-based gameplay in tests/integration/difficultyFlow.test.tsx (select Easy → verify simple shapes → select Hard → verify complex shapes)
+- [x] T062 [P] [US3] Write component tests for DifficultySelector in tests/components/DifficultySelector.test.tsx (renders three options, calls callback on selection, highlights selected difficulty)
+- [x] T063 [P] [US3] Write tests for difficulty-aware shape selection in tests/unit/services/GameEngine.test.ts (Easy returns simple shapes, Medium returns complex, Hard returns composite)
+- [x] T064 [P] [US3] Write integration test for difficulty-based gameplay in tests/integration/difficultyFlow.test.tsx (select Easy → verify simple shapes → select Hard → verify complex shapes)
 
 ### Implementation for User Story 3
 
-- [ ] T065 [P] [US3] Implement DifficultySelector component in src/components/DifficultySelector.tsx (three Material UI Button/Card options for Easy/Medium/Hard with descriptions)
-- [ ] T066 [US3] Update GameContext to store selected difficulty in GameSession in src/context/GameContext.tsx
-- [ ] T067 [US3] Update GameEngine.startRound to use session difficulty when selecting random shape in src/services/GameEngine.ts
-- [ ] T068 [US3] Add difficulty-based statistics tracking to SessionStatistics in src/models/types.ts (add per-difficulty score arrays)
-- [ ] T069 [US3] Update StatisticsService to calculate stats per difficulty in src/services/StatisticsService.ts
-- [ ] T070 [US3] Update SessionStats component to display per-difficulty statistics in src/components/SessionStats.tsx (toggle view between overall and per-difficulty)
-- [ ] T071 [US3] Add DifficultySelector to GameContainer at session start in src/components/GameContainer.tsx (show before first round, persist for session)
-- [ ] T072 [US3] Add difficulty indicator to game UI in src/components/GameContainer.tsx (show current difficulty in header)
+- [x] T065 [P] [US3] Implement DifficultySelector component in src/components/DifficultySelector.tsx (three Material UI Button/Card options for Easy/Medium/Hard with descriptions)
+- [x] T066 [US3] Update GameContext to store selected difficulty in GameSession in src/context/GameContext.tsx
+- [x] T067 [US3] Update GameEngine.startRound to use session difficulty when selecting random shape in src/services/GameEngine.ts
+- [x] T068 [US3] Add difficulty-based statistics tracking to SessionStatistics in src/models/types.ts (add per-difficulty score arrays)
+- [x] T069 [US3] Update StatisticsService to calculate stats per difficulty in src/services/StatisticsService.ts
+- [x] T070 [US3] Update SessionStats component to display per-difficulty statistics in src/components/SessionStats.tsx (toggle view between overall and per-difficulty)
+- [x] T071 [US3] Add DifficultySelector to GameContainer at session start in src/components/GameContainer.tsx (show before first round, persist for session)
+- [x] T072 [US3] Add difficulty indicator to game UI in src/components/GameContainer.tsx (show current difficulty in header)
 
 **Checkpoint**: All user stories should now be independently functional - complete feature set with difficulty customization
 

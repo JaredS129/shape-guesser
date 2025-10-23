@@ -260,4 +260,76 @@ describe('GameEngine', () => {
       expect(completedRound.similarityScore).toBeDefined();
     });
   });
+
+  describe('difficulty-aware shape selection', () => {
+    it('should return Easy shapes when session difficulty is Easy', () => {
+      const session = sessionRepo.createSession(DifficultyLevel.EASY);
+
+      // Test multiple rounds to ensure consistency
+      for (let i = 0; i < 5; i++) {
+        const round = gameEngine.startRound(session);
+        expect(round.targetShape.difficulty).toBe(DifficultyLevel.EASY);
+      }
+    });
+
+    it('should return Medium shapes when session difficulty is Medium', () => {
+      const session = sessionRepo.createSession(DifficultyLevel.MEDIUM);
+
+      // Test multiple rounds to ensure consistency
+      for (let i = 0; i < 5; i++) {
+        const round = gameEngine.startRound(session);
+        expect(round.targetShape.difficulty).toBe(DifficultyLevel.MEDIUM);
+      }
+    });
+
+    it('should return Hard shapes when session difficulty is Hard', () => {
+      const session = sessionRepo.createSession(DifficultyLevel.HARD);
+
+      // Test multiple rounds to ensure consistency
+      for (let i = 0; i < 5; i++) {
+        const round = gameEngine.startRound(session);
+        expect(round.targetShape.difficulty).toBe(DifficultyLevel.HARD);
+      }
+    });
+
+    it('should select different shapes for different difficulty levels', () => {
+      const easySession = sessionRepo.createSession(DifficultyLevel.EASY);
+      const mediumSession = sessionRepo.createSession(DifficultyLevel.MEDIUM);
+      const hardSession = sessionRepo.createSession(DifficultyLevel.HARD);
+
+      const easyRound = gameEngine.startRound(easySession);
+      const mediumRound = gameEngine.startRound(mediumSession);
+      const hardRound = gameEngine.startRound(hardSession);
+
+      // Shapes should have appropriate difficulty
+      expect(easyRound.targetShape.difficulty).toBe(DifficultyLevel.EASY);
+      expect(mediumRound.targetShape.difficulty).toBe(DifficultyLevel.MEDIUM);
+      expect(hardRound.targetShape.difficulty).toBe(DifficultyLevel.HARD);
+
+      // Shape definitions should be different (likely different shape types)
+      // Note: This is probabilistic but very likely with sufficient shape variety
+      const allSameShape =
+        easyRound.targetShape.shapeId === mediumRound.targetShape.shapeId &&
+        mediumRound.targetShape.shapeId === hardRound.targetShape.shapeId;
+
+      expect(allSameShape).toBe(false);
+    });
+
+    it('should respect difficulty throughout multiple rounds', () => {
+      const session = sessionRepo.createSession(DifficultyLevel.MEDIUM);
+
+      const round1 = gameEngine.startRound(session);
+      session.rounds.push(round1);
+
+      const round2 = gameEngine.startRound(session);
+      session.rounds.push(round2);
+
+      const round3 = gameEngine.startRound(session);
+
+      // All rounds should use Medium difficulty
+      expect(round1.targetShape.difficulty).toBe(DifficultyLevel.MEDIUM);
+      expect(round2.targetShape.difficulty).toBe(DifficultyLevel.MEDIUM);
+      expect(round3.targetShape.difficulty).toBe(DifficultyLevel.MEDIUM);
+    });
+  });
 });
