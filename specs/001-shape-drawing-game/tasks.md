@@ -183,22 +183,22 @@ description: "Task list for Shape Drawing Game implementation"
 
 **Purpose**: Improvements that affect multiple user stories and final quality assurance
 
-- [ ] T073 [P] Add loading state while score is being calculated in src/components/ResultsDisplay.tsx (Material UI CircularProgress)
-- [ ] T074 [P] Add error boundary component in src/components/ErrorBoundary.tsx for graceful error handling
-- [ ] T075 [P] Add empty canvas submission edge case handling in src/services/ScoringService.ts (ensure score of 0 per FR-012)
-- [ ] T076 [P] Add canvas bounds validation in src/components/DrawingCanvas.tsx (clamp points to canvas dimensions)
-- [ ] T077 [P] Optimize canvas rendering performance in src/components/DrawingCanvas.tsx (use requestAnimationFrame, minimize redraws)
-- [ ] T078 [P] Add touch event support to DrawingCanvas in src/components/DrawingCanvas.tsx (touchstart, touchmove, touchend handlers)
-- [ ] T079 [P] Add responsive design adjustments in src/App.tsx (adjust canvas size for tablet/desktop)
-- [ ] T080 [P] Add visual feedback for undo/clear/submit actions in src/components/DrawingCanvas.tsx (button disabled states, confirmation for clear)
-- [ ] T081 [P] Improve shape rendering quality in src/components/ShapeRenderer.tsx (anti-aliasing, stroke optimization)
-- [ ] T082 [P] Add game instructions/help text in src/components/HelpDialog.tsx (Material UI Dialog with instructions)
-- [ ] T083 [P] Add accessibility attributes to all interactive elements (ARIA labels, keyboard navigation support)
-- [ ] T084 Run full test suite with coverage (npm run test:coverage, ensure >80% coverage on services/repositories)
-- [ ] T085 Perform visual QA testing across browsers (Chrome, Firefox, Safari, Edge)
-- [ ] T086 Validate all functional requirements FR-001 through FR-013 are met
-- [ ] T087 Validate all success criteria SC-001 through SC-008 are met
-- [ ] T088 Performance testing (verify 60fps canvas, <1s scoring, <50ms input latency)
+- [x] T073 [P] Add loading state while score is being calculated in src/components/ResultsDisplay.tsx (Material UI CircularProgress)
+- [x] T074 [P] Add error boundary component in src/components/ErrorBoundary.tsx for graceful error handling
+- [x] T075 [P] Add empty canvas submission edge case handling in src/services/ScoringService.ts (ensure score of 0 per FR-012)
+- [x] T076 [P] Add canvas bounds validation in src/components/DrawingCanvas.tsx (clamp points to canvas dimensions)
+- [x] T077 [P] Optimize canvas rendering performance in src/components/DrawingCanvas.tsx (use requestAnimationFrame, minimize redraws)
+- [x] T078 [P] Add touch event support to DrawingCanvas in src/components/DrawingCanvas.tsx (touchstart, touchmove, touchend handlers)
+- [x] T079 [P] Add responsive design adjustments in src/App.tsx (adjust canvas size for tablet/desktop)
+- [x] T080 [P] Add visual feedback for undo/clear/submit actions in src/components/DrawingCanvas.tsx (button disabled states, confirmation for clear)
+- [x] T081 [P] Improve shape rendering quality in src/components/ShapeRenderer.tsx (anti-aliasing, stroke optimization)
+- [x] T082 [P] Add game instructions/help text in src/components/HelpDialog.tsx (Material UI Dialog with instructions)
+- [x] T083 [P] Add accessibility attributes to all interactive elements (ARIA labels, keyboard navigation support)
+- [x] T084 Run full test suite with coverage (npm run test:coverage, ensure >80% coverage on services/repositories)
+- [x] T085 Perform visual QA testing across browsers (Chrome, Firefox, Safari, Edge)
+- [x] T086 Validate all functional requirements FR-001 through FR-013 are met
+- [x] T087 Validate all success criteria SC-001 through SC-008 are met
+- [x] T088 Performance testing (verify 60fps canvas, <1s scoring, <50ms input latency)
 
 ---
 

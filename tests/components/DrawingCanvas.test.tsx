@@ -20,6 +20,12 @@ describe('DrawingCanvas', () => {
   it('should call onSubmit when submit button is clicked', () => {
     const handleSubmit = vi.fn();
     render(<DrawingCanvas onSubmit={handleSubmit} />);
+    const canvas = document.querySelector('canvas');
+
+    // Draw something first (submit is disabled when empty)
+    fireEvent.mouseDown(canvas!, { clientX: 10, clientY: 10 });
+    fireEvent.mouseMove(canvas!, { clientX: 20, clientY: 20 });
+    fireEvent.mouseUp(canvas!);
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submitButton);
@@ -64,6 +70,9 @@ describe('DrawingCanvas', () => {
   });
 
   it('should clear canvas when clear button is clicked', () => {
+    // Mock window.confirm to always return true
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+
     const handleSubmit = vi.fn();
     render(<DrawingCanvas onSubmit={handleSubmit} />);
     const canvas = document.querySelector('canvas');
@@ -77,14 +86,25 @@ describe('DrawingCanvas', () => {
     const clearButton = screen.getByRole('button', { name: /clear/i });
     fireEvent.click(clearButton);
 
-    // Submit and check isEmpty
+    // Should have asked for confirmation
+    expect(confirmSpy).toHaveBeenCalled();
+
+    // Draw again after clear
+    fireEvent.mouseDown(canvas!, { clientX: 30, clientY: 30 });
+    fireEvent.mouseMove(canvas!, { clientX: 40, clientY: 40 });
+    fireEvent.mouseUp(canvas!);
+
+    // Submit and check that only one stroke exists (the one after clear)
     const submitButton = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submitButton);
 
     expect(handleSubmit).toHaveBeenCalledWith(expect.objectContaining({
-      isEmpty: true,
-      strokes: []
+      isEmpty: false,
+      strokes: expect.arrayContaining([expect.any(Object)])
     }));
+    expect(handleSubmit.mock.calls[0][0].strokes.length).toBe(1);
+
+    confirmSpy.mockRestore();
   });
 
   it('should support touch events', () => {
@@ -132,6 +152,12 @@ describe('DrawingCanvas', () => {
   it('should include bitmap data in submission', () => {
     const handleSubmit = vi.fn();
     render(<DrawingCanvas onSubmit={handleSubmit} />);
+    const canvas = document.querySelector('canvas');
+
+    // Draw something first (submit is disabled when empty)
+    fireEvent.mouseDown(canvas!, { clientX: 10, clientY: 10 });
+    fireEvent.mouseMove(canvas!, { clientX: 20, clientY: 20 });
+    fireEvent.mouseUp(canvas!);
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submitButton);

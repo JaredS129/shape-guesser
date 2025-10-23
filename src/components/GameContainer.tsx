@@ -1,9 +1,11 @@
 import React from 'react';
-import { Box, Container, Typography, Paper, Chip } from '@mui/material';
+import { Box, Container, Typography, Paper, Chip, IconButton } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useGame, useGameActions } from '../context/GameContext';
 import { DrawingCanvas } from './DrawingCanvas';
 import { ResultsDisplay } from './ResultsDisplay';
 import { SessionStats } from './SessionStats';
+import { HelpDialog } from './HelpDialog';
 import { PlayerDrawing, RoundStatus, DifficultyLevel } from '../models';
 import { calculateSessionStatistics } from '../services/StatisticsService';
 
@@ -30,6 +32,7 @@ export function GameContainer() {
   const { submitDrawing, playAnotherRound } = useGameActions();
   const currentSession = state.session;
   const currentRound = state.currentRound;
+  const [helpOpen, setHelpOpen] = React.useState(false);
 
   // Handle drawing submission
   const handleSubmit = React.useCallback((drawing: PlayerDrawing) => {
@@ -80,7 +83,11 @@ export function GameContainer() {
           </Paper>
 
           <Box display="flex" justifyContent="center">
-            <DrawingCanvas onSubmit={handleSubmit} width={600} height={400} />
+            <DrawingCanvas
+              onSubmit={handleSubmit}
+              width={Math.min(600, window.innerWidth - 100)}
+              height={400}
+            />
           </Box>
         </Box>
       );
@@ -110,7 +117,7 @@ export function GameContainer() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box mb={4} textAlign="center">
+      <Box mb={4} textAlign="center" position="relative">
         <Typography variant="h3" component="h1" gutterBottom>
           Shape Guesser
         </Typography>
@@ -127,9 +134,18 @@ export function GameContainer() {
             />
           )}
         </Box>
+        <IconButton
+          onClick={() => setHelpOpen(true)}
+          sx={{ position: 'absolute', top: 0, right: 0 }}
+          aria-label="Help"
+        >
+          <HelpOutlineIcon />
+        </IconButton>
       </Box>
 
       {renderContent()}
+
+      <HelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
     </Container>
   );
 }

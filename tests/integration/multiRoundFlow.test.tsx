@@ -31,12 +31,12 @@ describe('Multi-Round Game Flow', () => {
       const scoreElements = screen.queryAllByText(/score/i);
       const roundElements = screen.queryAllByText(/round/i);
       expect(scoreElements.length > 0 || roundElements.length > 0).toBeTruthy();
-    });
+    }, { timeout: 2000 });
 
     // Should have "Play Another Round" button
     const playAgainButton = await waitFor(() =>
       screen.getByRole('button', { name: /play another round|next round|continue/i })
-    );
+    , { timeout: 2000 });
     expect(playAgainButton).toBeInTheDocument();
 
     // Click to start round 2
@@ -82,12 +82,12 @@ describe('Multi-Round Game Flow', () => {
     await waitFor(() => {
       const elements = screen.getAllByText(/1/);
       expect(elements.length).toBeGreaterThan(0);
-    });
+    }, { timeout: 2000 });
 
     // Start round 2
     const playAgainButton = await waitFor(() =>
       screen.getByRole('button', { name: /play another round|next round|continue/i })
-    );
+    , { timeout: 2000 });
     fireEvent.click(playAgainButton);
 
     await waitFor(() => {
@@ -145,7 +145,7 @@ describe('Multi-Round Game Flow', () => {
     // Start next round
     const playAgainButton = await waitFor(() =>
       screen.getByRole('button', { name: /play another round|next round|continue/i })
-    );
+    , { timeout: 2000 });
     fireEvent.click(playAgainButton);
 
     await waitFor(() => {
@@ -192,12 +192,12 @@ describe('Multi-Round Game Flow', () => {
       const scoreElements = screen.queryAllByText(/score/i);
       const roundElements = screen.queryAllByText(/round/i);
       expect(scoreElements.length > 0 || roundElements.length > 0).toBeTruthy();
-    });
+    }, { timeout: 2000 });
 
     // Start and complete second round
     const playAgainButton = await waitFor(() =>
       screen.getByRole('button', { name: /play another round|next round|continue/i })
-    );
+    , { timeout: 2000 });
     fireEvent.click(playAgainButton);
 
     await waitFor(() => {

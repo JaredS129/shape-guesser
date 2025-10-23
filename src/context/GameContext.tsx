@@ -62,7 +62,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'SUBMIT_DRAWING':
       return {
         ...state,
-        isLoading: true
+        isLoading: false
       };
 
     case 'COMPLETE_ROUND':
@@ -195,6 +195,7 @@ export function useGameActions() {
     const session = sessionRepo.getCurrentSession();
     if (!session || !session.currentRound) return;
 
+    // Scoring is synchronous, so no need for loading state (T073)
     const scoredRound = engine.submitDrawing(session.currentRound, drawing);
     const completedRound = engine.completeRound(scoredRound);
 

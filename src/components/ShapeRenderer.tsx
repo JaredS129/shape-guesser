@@ -21,7 +21,7 @@ export function ShapeRenderer({ shape, width = 200, height = 200 }: ShapeRendere
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     // Clear canvas
@@ -29,11 +29,20 @@ export function ShapeRenderer({ shape, width = 200, height = 200 }: ShapeRendere
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
 
+    // Enable anti-aliasing and optimize rendering (T081)
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
     // Apply shape display properties
     ctx.fillStyle = shape.displayProperties.fillColor;
     ctx.strokeStyle = shape.displayProperties.strokeColor;
     ctx.lineWidth = shape.displayProperties.strokeWidth;
     ctx.globalAlpha = shape.displayProperties.opacity;
+
+    // Improve stroke rendering quality (T081)
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.miterLimit = 10;
 
     const centerX = width / 2;
     const centerY = height / 2;
@@ -79,6 +88,8 @@ export function ShapeRenderer({ shape, width = 200, height = 200 }: ShapeRendere
       ref={canvasRef}
       width={width}
       height={height}
+      role="img"
+      aria-label={`Target shape: ${shape.name}`}
       style={{
         border: '1px solid #ddd',
         borderRadius: '4px',

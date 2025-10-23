@@ -26,8 +26,9 @@ export function DrawingCanvas({
   const [currentPoints, setCurrentPoints] = useState<Point[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [startTime] = useState<Date>(new Date());
+  const animationFrameRef = useRef<number>();
 
-  // Redraw canvas whenever strokes change
+  // Redraw canvas with requestAnimationFrame optimization (T077)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -35,62 +36,80 @@ export function DrawingCanvas({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, width, height);
+    // Cancel previous animation frame if exists
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
 
-    // Draw all completed strokes
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    // Use requestAnimationFrame for smooth rendering
+    animationFrameRef.current = requestAnimationFrame(() => {
+      // Clear canvas
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
 
-    strokes.forEach(stroke => {
-      if (stroke.points.length < 2) return;
+      // Draw all completed strokes
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
 
-      ctx.beginPath();
-      ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+      strokes.forEach(stroke => {
+        if (stroke.points.length < 2) return;
 
-      for (let i = 1; i < stroke.points.length; i++) {
-        ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+        ctx.beginPath();
+        ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+
+        for (let i = 1; i < stroke.points.length; i++) {
+          ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+        }
+
+        ctx.stroke();
+      });
+
+      // Draw current stroke in progress
+      if (currentPoints.length >= 2) {
+        ctx.beginPath();
+        ctx.moveTo(currentPoints[0].x, currentPoints[0].y);
+
+        for (let i = 1; i < currentPoints.length; i++) {
+          ctx.lineTo(currentPoints[i].x, currentPoints[i].y);
+        }
+
+        ctx.stroke();
       }
-
-      ctx.stroke();
     });
 
-    // Draw current stroke in progress
-    if (currentPoints.length >= 2) {
-      ctx.beginPath();
-      ctx.moveTo(currentPoints[0].x, currentPoints[0].y);
-
-      for (let i = 1; i < currentPoints.length; i++) {
-        ctx.lineTo(currentPoints[i].x, currentPoints[i].y);
+    // Cleanup on unmount
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
-
-      ctx.stroke();
-    }
+    };
   }, [strokes, currentPoints, width, height]);
 
-  // Get mouse/touch position relative to canvas
+  // Get mouse/touch position relative to canvas with bounds validation (T076)
   const getPosition = useCallback((e: React.MouseEvent | React.TouchEvent): Point | null => {
     const canvas = canvasRef.current;
     if (!canvas) return null;
 
     const rect = canvas.getBoundingClientRect();
+    let x: number, y: number;
 
     if ('touches' in e) {
       const touch = e.touches[0];
-      return {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top
-      };
+      x = touch.clientX - rect.left;
+      y = touch.clientY - rect.top;
     } else {
-      return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      };
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
     }
-  }, []);
+
+    // Clamp coordinates to canvas bounds (T076)
+    return {
+      x: Math.max(0, Math.min(width, x)),
+      y: Math.max(0, Math.min(height, y))
+    };
+  }, [width, height]);
 
   // Mouse/touch event handlers
   const handleStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -130,11 +149,16 @@ export function DrawingCanvas({
     setIsDrawing(false);
   }, [isDrawing, currentPoints]);
 
-  // Clear canvas
+  // Clear canvas with confirmation (T080)
   const handleClear = useCallback(() => {
+    if (strokes.length > 0) {
+      if (!window.confirm('Are you sure you want to clear your drawing?')) {
+        return;
+      }
+    }
     setStrokes([]);
     setCurrentPoints([]);
-  }, []);
+  }, [strokes.length]);
 
   // Undo last stroke
   const handleUndo = useCallback(() => {
@@ -185,6 +209,9 @@ export function DrawingCanvas({
         onTouchStart={handleStart}
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
+        role="img"
+        aria-label="Drawing canvas for shape drawing game"
+        tabIndex={0}
         style={{
           border: '2px solid #ccc',
           borderRadius: '8px',
@@ -200,6 +227,8 @@ export function DrawingCanvas({
           variant="outlined"
           onClick={handleClear}
           color="error"
+          disabled={strokes.length === 0}
+          aria-label="Clear all drawing strokes"
         >
           Clear
         </Button>
@@ -207,6 +236,7 @@ export function DrawingCanvas({
           variant="outlined"
           onClick={handleUndo}
           disabled={strokes.length === 0}
+          aria-label="Undo last stroke"
         >
           Undo
         </Button>
@@ -215,6 +245,8 @@ export function DrawingCanvas({
           onClick={handleSubmit}
           color="primary"
           size="large"
+          disabled={strokes.length === 0}
+          aria-label="Submit drawing for scoring"
         >
           Submit
         </Button>

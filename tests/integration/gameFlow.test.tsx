@@ -70,15 +70,15 @@ describe('Game Flow Integration', () => {
       expect(canvas).toBeInTheDocument();
     });
 
-    // Submit without drawing
+    // Submit button should be disabled when canvas is empty (T080)
     const submitButton = screen.getByRole('button', { name: /submit/i });
-    fireEvent.click(submitButton);
+    expect(submitButton).toBeDisabled();
 
-    // Should still show results with 0 score
-    await waitFor(() => {
-      const scoreElements = screen.getAllByText(/0/);
-      expect(scoreElements.length).toBeGreaterThan(0);
-    });
+    // Verify clear and undo are also disabled
+    const clearButton = screen.getByRole('button', { name: /clear/i });
+    const undoButton = screen.getByRole('button', { name: /undo/i });
+    expect(clearButton).toBeDisabled();
+    expect(undoButton).toBeDisabled();
   });
 
   it('should support undo functionality during drawing', async () => {
@@ -120,6 +120,9 @@ describe('Game Flow Integration', () => {
   });
 
   it('should support clear functionality', async () => {
+    // Mock window.confirm to always return true
+    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+
     render(
       <GameProvider difficulty={DifficultyLevel.HARD}>
         <GameContainer />
@@ -147,6 +150,8 @@ describe('Game Flow Integration', () => {
 
     // Undo should be disabled after clear
     expect(undoButton).toBeDisabled();
+
+    confirmSpy.mockRestore();
   });
 
   it('should calculate score within 1 second', async () => {

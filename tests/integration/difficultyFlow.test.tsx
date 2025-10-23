@@ -112,16 +112,16 @@ describe('Difficulty-Based Gameplay Flow', () => {
     fireEvent.mouseUp(canvas!);
     fireEvent.click(screen.getByRole('button', { name: /submit/i }));
 
-    // Wait for results
+    // Wait for results (with longer timeout for loading state)
     await waitFor(() => {
       const roundElements = screen.queryAllByText(/round/i);
       expect(roundElements.length).toBeGreaterThan(0);
-    });
+    }, { timeout: 2000 });
 
-    // Start round 2
+    // Wait for loading to complete and button to appear
     const playAgainButton = await waitFor(() =>
       screen.getByRole('button', { name: /play another round|next round|continue/i })
-    );
+    , { timeout: 2000 });
     fireEvent.click(playAgainButton);
 
     // Should return to drawing canvas

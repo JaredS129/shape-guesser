@@ -5,7 +5,8 @@ import {
   Typography,
   Chip,
   Stack,
-  Button
+  Button,
+  CircularProgress
 } from '@mui/material';
 import { Round } from '../models';
 import { ShapeRenderer } from './ShapeRenderer';
@@ -41,11 +42,25 @@ function getScoreLabel(score: number): string {
 /**
  * ResultsDisplay - Shows round results with score and comparisons
  * Displays score, target shape, player drawing, and side-by-side comparison
+ * Shows loading state while score is being calculated (T073)
  */
 export function ResultsDisplay({ round, onPlayAgain }: ResultsDisplayProps) {
   const score = round.similarityScore?.overallScore || 0;
   const scoreColor = getScoreColor(score);
   const scoreLabel = getScoreLabel(score);
+
+  // Show loading state while score is being calculated (T073)
+  // Since scoring is synchronous, this will only show briefly during state updates
+  if (!round.similarityScore) {
+    return (
+      <Box textAlign="center" py={8}>
+        <CircularProgress size={60} />
+        <Typography variant="h6" color="text.secondary" sx={{ mt: 3 }}>
+          Calculating your score...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box>

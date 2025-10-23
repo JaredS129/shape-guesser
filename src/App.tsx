@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { GameProvider } from './context/GameContext';
 import { GameContainer } from './components/GameContainer';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { DifficultyLevel } from './models';
 
 // Create Material UI theme
@@ -51,12 +52,14 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <GameProvider difficulty={DifficultyLevel.EASY}>
-        <GameContainer />
-      </GameProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <GameProvider difficulty={DifficultyLevel.EASY}>
+          <GameContainer />
+        </GameProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
