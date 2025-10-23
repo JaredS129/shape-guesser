@@ -97,29 +97,29 @@ description: "Task list for Shape Drawing Game implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T031 [P] [US1] Write unit tests for GameEngine.startRound in tests/unit/services/GameEngine.test.ts
-- [ ] T032 [P] [US1] Write unit tests for GameEngine.submitDrawing in tests/unit/services/GameEngine.test.ts
-- [ ] T033 [P] [US1] Write unit tests for GameEngine.completeRound in tests/unit/services/GameEngine.test.ts
-- [ ] T034 [P] [US1] Write component tests for DrawingCanvas in tests/components/DrawingCanvas.test.tsx (renders canvas, captures strokes, undo last stroke, clear all, submit calls callback)
-- [ ] T035 [P] [US1] Write component tests for ResultsDisplay in tests/components/ResultsDisplay.test.tsx (displays score, shows target shape, shows player drawing, side-by-side comparison)
-- [ ] T036 [P] [US1] Write integration test for complete game flow in tests/integration/gameFlow.test.tsx (start → draw → submit → score → results)
+- [x] T031 [P] [US1] Write unit tests for GameEngine.startRound in tests/unit/services/GameEngine.test.ts
+- [x] T032 [P] [US1] Write unit tests for GameEngine.submitDrawing in tests/unit/services/GameEngine.test.ts
+- [x] T033 [P] [US1] Write unit tests for GameEngine.completeRound in tests/unit/services/GameEngine.test.ts
+- [x] T034 [P] [US1] Write component tests for DrawingCanvas in tests/components/DrawingCanvas.test.tsx (renders canvas, captures strokes, undo last stroke, clear all, submit calls callback)
+- [x] T035 [P] [US1] Write component tests for ResultsDisplay in tests/components/ResultsDisplay.test.tsx (displays score, shows target shape, shows player drawing, side-by-side comparison)
+- [x] T036 [P] [US1] Write integration test for complete game flow in tests/integration/gameFlow.test.tsx (start → draw → submit → score → results)
 
 ### Implementation for User Story 1
 
-- [ ] T037 [P] [US1] Implement GameEngine.startRound in src/services/GameEngine.ts (creates Round with random TargetShape, sets status to DRAWING)
-- [ ] T038 [P] [US1] Implement GameEngine.submitDrawing in src/services/GameEngine.ts (accepts PlayerDrawing, calculates SimilarityScore, updates Round status)
-- [ ] T039 [US1] Implement GameEngine.completeRound in src/services/GameEngine.ts (finalizes Round, moves to completed rounds, calculates duration)
-- [ ] T040 [US1] Create GameContext with useReducer for game state management in src/context/GameContext.tsx (manages GameSession, current Round, actions for startRound/submitDrawing/completeRound)
-- [ ] T041 [US1] Create GameProvider component that wraps repository access in src/context/GameContext.tsx
-- [ ] T042 [US1] Implement DrawingCanvas component in src/components/DrawingCanvas.tsx (canvas with React ref, mouse/touch handlers, stroke capture, render strokes on every update)
-- [ ] T043 [US1] Add undo last stroke functionality to DrawingCanvas in src/components/DrawingCanvas.tsx
-- [ ] T044 [US1] Add clear all functionality to DrawingCanvas in src/components/DrawingCanvas.tsx
-- [ ] T045 [US1] Add submit button with PlayerDrawing creation in DrawingCanvas in src/components/DrawingCanvas.tsx (convert canvas to bitmap via toDataURL)
-- [ ] T046 [US1] Implement ResultsDisplay component in src/components/ResultsDisplay.tsx (displays score, target shape visual, player drawing visual, side-by-side comparison using Material UI Card/Typography)
-- [ ] T047 [US1] Implement ShapeRenderer helper component in src/components/ShapeRenderer.tsx (renders TargetShape definition to canvas for display)
-- [ ] T048 [US1] Create GameContainer orchestration component in src/components/GameContainer.tsx (manages game flow state, renders DrawingCanvas during DRAWING, renders ResultsDisplay after SCORED)
-- [ ] T049 [US1] Wire GameContainer into App.tsx with GameProvider wrapper
-- [ ] T050 [US1] Add Material UI theme and basic layout styling to App.tsx
+- [x] T037 [P] [US1] Implement GameEngine.startRound in src/services/GameEngine.ts (creates Round with random TargetShape, sets status to DRAWING)
+- [x] T038 [P] [US1] Implement GameEngine.submitDrawing in src/services/GameEngine.ts (accepts PlayerDrawing, calculates SimilarityScore, updates Round status)
+- [x] T039 [US1] Implement GameEngine.completeRound in src/services/GameEngine.ts (finalizes Round, moves to completed rounds, calculates duration)
+- [x] T040 [US1] Create GameContext with useReducer for game state management in src/context/GameContext.tsx (manages GameSession, current Round, actions for startRound/submitDrawing/completeRound)
+- [x] T041 [US1] Create GameProvider component that wraps repository access in src/context/GameContext.tsx
+- [x] T042 [US1] Implement DrawingCanvas component in src/components/DrawingCanvas.tsx (canvas with React ref, mouse/touch handlers, stroke capture, render strokes on every update)
+- [x] T043 [US1] Add undo last stroke functionality to DrawingCanvas in src/components/DrawingCanvas.tsx
+- [x] T044 [US1] Add clear all functionality to DrawingCanvas in src/components/DrawingCanvas.tsx
+- [x] T045 [US1] Add submit button with PlayerDrawing creation in DrawingCanvas in src/components/DrawingCanvas.tsx (convert canvas to bitmap via toDataURL)
+- [x] T046 [US1] Implement ResultsDisplay component in src/components/ResultsDisplay.tsx (displays score, target shape visual, player drawing visual, side-by-side comparison using Material UI Card/Typography)
+- [x] T047 [US1] Implement ShapeRenderer helper component in src/components/ShapeRenderer.tsx (renders TargetShape definition to canvas for display)
+- [x] T048 [US1] Create GameContainer orchestration component in src/components/GameContainer.tsx (manages game flow state, renders DrawingCanvas during DRAWING, renders ResultsDisplay after SCORED)
+- [x] T049 [US1] Wire GameContainer into App.tsx with GameProvider wrapper
+- [x] T050 [US1] Add Material UI theme and basic layout styling to App.tsx
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently - user can play one complete round of the game
 

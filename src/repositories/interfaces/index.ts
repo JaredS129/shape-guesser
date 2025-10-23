@@ -1,2 +1,2 @@
-export { GameSessionRepository } from './GameSessionRepository';
-export { ShapeRepository } from './ShapeRepository';
+export type { GameSessionRepository } from './GameSessionRepository';
+export type { ShapeRepository } from './ShapeRepository';
