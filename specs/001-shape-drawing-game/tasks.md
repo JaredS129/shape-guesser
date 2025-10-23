@@ -49,39 +49,39 @@ description: "Task list for Shape Drawing Game implementation"
 
 ### Domain Models & Types
 
-- [ ] T010 [P] Create src/models/enums.ts with RoundStatus, DifficultyLevel, ScoringMethod enums
-- [ ] T011 [P] Create src/models/types.ts with all TypeScript interfaces (Point, Stroke, PlayerDrawing, TargetShape, Round, GameSession, SimilarityScore, SessionStatistics, etc.)
-- [ ] T012 [P] Create src/models/index.ts to export all types and enums
+- [x] T010 [P] Create src/models/enums.ts with RoundStatus, DifficultyLevel, ScoringMethod enums
+- [x] T011 [P] Create src/models/types.ts with all TypeScript interfaces (Point, Stroke, PlayerDrawing, TargetShape, Round, GameSession, SimilarityScore, SessionStatistics, etc.)
+- [x] T012 [P] Create src/models/index.ts to export all types and enums
 
 ### Utility Functions (TDD)
 
-- [ ] T013 Write tests for generateUUID function in tests/unit/utils/idGenerator.test.ts
-- [ ] T014 Implement src/utils/idGenerator.ts with generateUUID function (should FAIL tests first, then pass)
-- [ ] T015 Write tests for shape definitions in tests/unit/utils/shapeDefinitions.test.ts (at least 10 shapes, proper difficulty classification)
-- [ ] T016 Implement src/utils/shapeDefinitions.ts with predefined shapes for Easy/Medium/Hard difficulties (circle, square, triangle, rectangle, pentagon, hexagon, star, heart, diamond, oval, house, arrow, crescent, irregular-polygon)
-- [ ] T017 Implement getAllShapes, getShapesByDifficulty, getRandomShape functions in src/utils/shapeDefinitions.ts
+- [x] T013 Write tests for generateUUID function in tests/unit/utils/idGenerator.test.ts
+- [x] T014 Implement src/utils/idGenerator.ts with generateUUID function (should FAIL tests first, then pass)
+- [x] T015 Write tests for shape definitions in tests/unit/utils/shapeDefinitions.test.ts (at least 10 shapes, proper difficulty classification)
+- [x] T016 Implement src/utils/shapeDefinitions.ts with predefined shapes for Easy/Medium/Hard difficulties (circle, square, triangle, rectangle, pentagon, hexagon, star, heart, diamond, oval, house, arrow, crescent, irregular-polygon)
+- [x] T017 Implement getAllShapes, getShapesByDifficulty, getRandomShape functions in src/utils/shapeDefinitions.ts
 
 ### Repository Interfaces
 
-- [ ] T018 [P] Create src/repositories/interfaces/GameSessionRepository.ts interface (getCurrentSession, createSession, updateSession, clearSession)
-- [ ] T019 [P] Create src/repositories/interfaces/ShapeRepository.ts interface (getShapesByDifficulty, getRandomShape, getAllShapes)
-- [ ] T020 [P] Create src/repositories/interfaces/index.ts to export all repository interfaces
+- [x] T018 [P] Create src/repositories/interfaces/GameSessionRepository.ts interface (getCurrentSession, createSession, updateSession, clearSession)
+- [x] T019 [P] Create src/repositories/interfaces/ShapeRepository.ts interface (getShapesByDifficulty, getRandomShape, getAllShapes)
+- [x] T020 [P] Create src/repositories/interfaces/index.ts to export all repository interfaces
 
 ### Repository Implementations (TDD)
 
-- [ ] T021 Write tests for InMemoryGameSessionRepository in tests/unit/repositories/InMemoryGameSessionRepository.test.ts
-- [ ] T022 Implement src/repositories/InMemoryGameSessionRepository.ts (should FAIL tests first, then pass)
-- [ ] T023 Write tests for InMemoryShapeRepository in tests/unit/repositories/InMemoryShapeRepository.test.ts
-- [ ] T024 Implement src/repositories/InMemoryShapeRepository.ts (should FAIL tests first, then pass)
+- [x] T021 Write tests for InMemoryGameSessionRepository in tests/unit/repositories/InMemoryGameSessionRepository.test.ts
+- [x] T022 Implement src/repositories/InMemoryGameSessionRepository.ts (should FAIL tests first, then pass)
+- [x] T023 Write tests for InMemoryShapeRepository in tests/unit/repositories/InMemoryShapeRepository.test.ts
+- [x] T024 Implement src/repositories/InMemoryShapeRepository.ts (should FAIL tests first, then pass)
 
 ### Core Services (TDD)
 
-- [ ] T025 Write tests for calculateAreaSimilarity in tests/unit/services/ScoringService.test.ts (empty drawing returns 0, perfect match returns 100, deterministic, completes <1 second)
-- [ ] T026 Implement convertDrawingToBitmap helper function in src/services/ScoringService.ts
-- [ ] T027 Implement convertShapeToBitmap helper function in src/services/ScoringService.ts
-- [ ] T028 Implement countOverlappingPixels helper function in src/services/ScoringService.ts
-- [ ] T029 Implement calculateAreaSimilarity function in src/services/ScoringService.ts (should FAIL tests first, then pass)
-- [ ] T030 Implement createSimilarityScore function in src/services/ScoringService.ts
+- [x] T025 Write tests for calculateAreaSimilarity in tests/unit/services/ScoringService.test.ts (empty drawing returns 0, perfect match returns 100, deterministic, completes <1 second)
+- [x] T026 Implement convertDrawingToBitmap helper function in src/services/ScoringService.ts
+- [x] T027 Implement convertShapeToBitmap helper function in src/services/ScoringService.ts
+- [x] T028 Implement countOverlappingPixels helper function in src/services/ScoringService.ts
+- [x] T029 Implement calculateAreaSimilarity function in src/services/ScoringService.ts (should FAIL tests first, then pass)
+- [x] T030 Implement createSimilarityScore function in src/services/ScoringService.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 

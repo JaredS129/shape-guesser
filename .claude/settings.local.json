@@ -14,7 +14,12 @@
       "Bash(npm install:*)",
       "Bash(tree:*)",
       "Bash(npm run test:run:*)",
-      "Bash(timeout 5 npm run dev)"
+      "Bash(timeout 5 npm run dev)",
+      "Bash(if [ -d \"/Users/Jared/Desktop/Code/shape-guesser/specs/001-shape-drawing-game/checklists\" ])",
+      "Bash(then find \"/Users/Jared/Desktop/Code/shape-guesser/specs/001-shape-drawing-game/checklists\" -name \"*.md\" -type f)",
+      "Bash(else echo \"No checklists directory\")",
+      "Bash(fi)",
+      "Bash(npm run test:coverage:*)"
     ],
     "deny": [],
     "ask": []
